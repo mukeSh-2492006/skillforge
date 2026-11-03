@@ -14,6 +14,8 @@ class _AddScreenState extends State<AddScreen> {
   final _formKey = GlobalKey<FormState>();
   final _controller = TextEditingController();
 
+  bool _isSubmitting = false;
+
   @override
   void dispose() {
     _controller.dispose();
@@ -21,23 +23,77 @@ class _AddScreenState extends State<AddScreen> {
   }
 
   Future<void> _submitSkill() async {
+    if (_isSubmitting) return;
+
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
     final skillName = _controller.text.trim();
+    final provider = context.read<SkillProvider>();
+    final messenger = ScaffoldMessenger.of(context);
 
-    await context.read<SkillProvider>().addSkill(skillName);
+    setState(() {
+      _isSubmitting = true;
+    });
 
-    if (!mounted) return;
+    try {
+      // Check whether the skill already exists.
+      final alreadyExists = provider.skills.any(
+        (skill) =>
+            skill.title.trim().toLowerCase() ==
+            skillName.toLowerCase(),
+      );
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Skill Added Successfully!'),
-      ),
-    );
+      if (alreadyExists) {
+        messenger.showSnackBar(
+          const SnackBar(
+            content: Text('This skill already exists!'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
 
-    Navigator.pop(context);
+      // Add the skill and check the result.
+      final success = await provider.addSkill(skillName);
+
+      if (!mounted) return;
+
+      if (!success) {
+        messenger.showSnackBar(
+          const SnackBar(
+            content: Text('Unable to add skill. Please try again.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
+      Navigator.pop(context);
+
+      messenger.showSnackBar(
+        const SnackBar(
+          content: Text('Skill added successfully!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+
+      messenger.showSnackBar(
+        const SnackBar(
+          content: Text('Something went wrong. Please try again.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSubmitting = false;
+        });
+      }
+    }
   }
 
   @override
@@ -72,9 +128,20 @@ class _AddScreenState extends State<AddScreen> {
                 },
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _submitSkill,
-                child: const Text('Submit'),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _isSubmitting ? null : _submitSkill,
+                  child: _isSubmitting
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : const Text('Submit'),
+                ),
               ),
             ],
           ),

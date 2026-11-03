@@ -1,5 +1,7 @@
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/skill_provider.dart';
 import '../models/skill_model.dart';
 import 'detail_screen.dart';
 
@@ -13,13 +15,20 @@ class RoadmapScreen extends StatefulWidget {
 class _RoadmapScreenState extends State<RoadmapScreen> {
   String selectedFilter = 'All';
 
-  final List<Skill> skills = [
-    Skill(title: 'Python', subtitle: 'Beginner to Advanced', progress: 0.40),
-    Skill(title: 'Java', subtitle: 'Beginner to Advanced', progress: 0.25),
-    Skill(title: 'DSA', subtitle: 'Beginner to Advanced', progress: 0.15),
-    Skill(title: 'Flutter', subtitle: 'Beginner to Advanced', progress: 0.10),
-    Skill(title: 'C', subtitle: 'Beginner to Advanced', progress: 0.30),
-  ];
+  bool matchesFilter(Skill skill) {
+    switch (selectedFilter) {
+      case 'Programming':
+        return ['python', 'java', 'c', 'c++', 'javascript']
+            .contains(skill.title.toLowerCase());
+      case 'DSA':
+        return skill.title.toLowerCase() == 'dsa';
+      case 'Frameworks':
+        return ['flutter', 'react', 'angular', 'django']
+            .contains(skill.title.toLowerCase());
+      default:
+        return true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,53 +54,115 @@ class _RoadmapScreenState extends State<RoadmapScreen> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: ['All', 'Programming', 'DSA', 'Frameworks']
-                    .map((filter) => Padding(
-                          padding: const EdgeInsets.only(right: 8),
-                          child: ChoiceChip(
-                            label: Text(filter),
-                            selected: selectedFilter == filter,
-                            onSelected: (_) {
-                              setState(() => selectedFilter = filter);
-                            },
-                          ),
-                        ))
+                    .map(
+                      (filter) => Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: ChoiceChip(
+                          label: Text(filter),
+                          selected: selectedFilter == filter,
+                          onSelected: (_) {
+                            setState(() {
+                              selectedFilter = filter;
+                            });
+                          },
+                        ),
+                      ),
+                    )
                     .toList(),
               ),
             ),
             const SizedBox(height: 16),
             Expanded(
-              child: ListView.builder(
-                itemCount: skills.length,
-                itemBuilder: (context, index) {
-                  final skill = skills[index];
+              child: Consumer<SkillProvider>(
+                builder: (context, provider, child) {
+                  if (provider.isLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-                  return Card(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.all(12),
-                      leading: const Icon(Icons.code, color: Colors.blue),
-                      title: Text(
-                        skill.title,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  if (provider.errorMessage != null) {
+                    return Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(skill.subtitle),
-                          const SizedBox(height: 8),
-                          LinearProgressIndicator(value: skill.progress),
+                          Text(provider.errorMessage!),
+                          const SizedBox(height: 12),
+                          ElevatedButton(
+                            onPressed: provider.loadSkills,
+                            child: const Text('Retry'),
+                          ),
                         ],
                       ),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DetailScreen(skill: skill),
+                    );
+                  }
+
+                  final skills = provider.skills
+                      .where(matchesFilter)
+                      .toList();
+
+                  if (skills.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'No skills found.\nAdd a skill to get started!',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    );
+                  }
+
+                  return ListView.builder(
+                    itemCount: skills.length,
+                    itemBuilder: (context, index) {
+                      final skill = skills[index];
+
+                      return Card(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.all(12),
+                          leading: const Icon(
+                            Icons.code,
+                            color: Colors.blue,
                           ),
-                        );
-                      },
-                    ),
+                          title: Text(
+                            skill.title,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(skill.subtitle),
+                              const SizedBox(height: 8),
+                              LinearProgressIndicator(
+                                value: skill.progress,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                '${(skill.progress * 100).round()}% completed',
+                              ),
+                              Text(
+                                '${skill.completedTopics.length} of ${skill.topics.length} topics completed',
+                              ),
+                            ],
+                          ),
+                          trailing: const Icon(Icons.chevron_right),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    DetailScreen(skill: skill),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
                   );
                 },
               ),
@@ -102,4 +173,3 @@ class _RoadmapScreenState extends State<RoadmapScreen> {
     );
   }
 }
-
