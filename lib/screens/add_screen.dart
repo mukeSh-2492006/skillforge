@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/skill_provider.dart';
@@ -49,7 +50,7 @@ class _AddScreenState extends State<AddScreen> {
         messenger.showSnackBar(
           const SnackBar(
             content: Text('This skill already exists!'),
-            backgroundColor: Colors.red,
+            backgroundColor: AppColors.red,
           ),
         );
         return;
@@ -64,7 +65,7 @@ class _AddScreenState extends State<AddScreen> {
         messenger.showSnackBar(
           const SnackBar(
             content: Text('Unable to add skill. Please try again.'),
-            backgroundColor: Colors.red,
+            backgroundColor: AppColors.red,
           ),
         );
         return;
@@ -75,7 +76,7 @@ class _AddScreenState extends State<AddScreen> {
       messenger.showSnackBar(
         const SnackBar(
           content: Text('Skill added successfully!'),
-          backgroundColor: Colors.green,
+          backgroundColor: AppColors.green,
         ),
       );
     } catch (e) {
@@ -84,7 +85,7 @@ class _AddScreenState extends State<AddScreen> {
       messenger.showSnackBar(
         const SnackBar(
           content: Text('Something went wrong. Please try again.'),
-          backgroundColor: Colors.red,
+          backgroundColor: AppColors.red,
         ),
       );
     } finally {

@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/skill_model.dart';
 import '../providers/skill_provider.dart';
+import '../widgets/add_topic_dialog.dart';
 
 class DetailScreen extends StatelessWidget {
   final Skill skill;
@@ -18,7 +19,7 @@ class DetailScreen extends StatelessWidget {
   ) async {
     final topic = await showDialog<String>(
       context: context,
-      builder: (context) => const _AddTopicDialog(),
+      builder: (context) => const AddTopicDialog(),
     );
 
     if (!context.mounted || topic == null) return;
@@ -76,21 +77,17 @@ class DetailScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-
                 Text(
                   'Current Progress: ${(progress * 100).toInt()}%',
                   style: const TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 10),
-
                 LinearProgressIndicator(
                   value: progress,
                   minHeight: 10,
                   borderRadius: BorderRadius.circular(10),
                 ),
-
                 const SizedBox(height: 25),
-
                 const Text(
                   'Learning Topics',
                   style: TextStyle(
@@ -99,7 +96,6 @@ class DetailScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
-
                 Expanded(
                   child: currentSkill.topics.isEmpty
                       ? const Center(
@@ -113,8 +109,7 @@ class DetailScreen extends StatelessWidget {
                       : ListView.builder(
                           itemCount: currentSkill.topics.length,
                           itemBuilder: (context, index) {
-                            final topic =
-                                currentSkill.topics[index];
+                            final topic = currentSkill.topics[index];
 
                             final isCompleted = currentSkill
                                 .completedTopics
@@ -145,80 +140,6 @@ class DetailScreen extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-// Separate dialog widget manages its own controller.
-class _AddTopicDialog extends StatefulWidget {
-  const _AddTopicDialog();
-
-  @override
-  State<_AddTopicDialog> createState() =>
-      _AddTopicDialogState();
-}
-
-class _AddTopicDialogState extends State<_AddTopicDialog> {
-  late final TextEditingController _controller;
-  String? _errorText;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _addTopic() {
-    final topic = _controller.text.trim();
-
-    if (topic.isEmpty) {
-      setState(() {
-        _errorText = 'Please enter a topic name.';
-      });
-      return;
-    }
-
-    Navigator.of(context).pop(topic);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Add New Topic'),
-      content: TextField(
-        controller: _controller,
-        maxLength: 100,
-        autofocus: true,
-        decoration: InputDecoration(
-          labelText: 'Topic Name',
-          hintText: 'Example: Introduction',
-          border: const OutlineInputBorder(),
-          errorText: _errorText,
-        ),
-        onChanged: (_) {
-          if (_errorText != null) {
-            setState(() {
-              _errorText = null;
-            });
-          }
-        },
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
-        ),
-        ElevatedButton(
-          onPressed: _addTopic,
-          child: const Text('Add'),
-        ),
-      ],
     );
   }
 }
