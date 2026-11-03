@@ -101,7 +101,6 @@ Replace the placeholders with the actual names and work completed by each member
 
 ## Final submission checklist
 
-- [ ] Faculty approval of the project topic documented
 - [ ] Project folders organised into `models`, `services`, `screens`, and `widgets`
 - [ ] Main list screen loading, error-with-retry, empty, and data states tested
 - [ ] Theme and app icon checked against the specification
