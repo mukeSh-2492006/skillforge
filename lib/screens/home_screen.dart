@@ -134,7 +134,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 2),
                       Text(
-                        'Keep going! Your future self will\nthank you. Ã°Å¸Ëœâ€°',
+                        'Keep going! Your future self will\nthank you.',
                         style: TextStyle(
                           fontSize: 11,
                           color: AppColors.slateMedium,
@@ -220,7 +220,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           const Text(
-                            'Keep learning! Ã°Å¸Å¡â‚¬',
+                            'Keep learning!',
                             style: TextStyle(
                               color: AppColors.primary,
                               fontSize: 11,

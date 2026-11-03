@@ -186,7 +186,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(height: 2),
 
                   Text(
-                    'B.Tech $branch Ã¢â‚¬Â¢ $year',
+                    'B.Tech $branch - $year',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: AppColors.grey,
