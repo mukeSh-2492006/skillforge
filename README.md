@@ -88,11 +88,14 @@ The release build was successfully generated in the development workspace. Insta
 
 Replace the placeholders with the actual names and work completed by each member. The project specification requires every member to own at least one screen or major component and to commit regularly.
 
-| Team member | Contribution |
-|---|---|
-| [Member 1 name] | [Screens/components implemented] |
-| [Member 2 name] | [Screens/components implemented] |
-| [Member 3 name, if applicable] | [Screens/components implemented] |
+## Team Members
+
+| S.No | Name | Contribution |
+|---|---|---|
+| 1 | Member 1 Name | UI Design and Home Screen |
+| 2 | Member 2 Name | Flutter Development and Navigation |
+| 3 | Member 3 Name | Database and State Management |
+| 4 | Member 4 Name | Testing and Documentation |
 
 ## Repository
 
