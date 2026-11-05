@@ -113,7 +113,7 @@ APK Location:
 | D-05 | Profile navigation issue | Open Profile and select Settings | Fixed |
 | D-06 | Home data issue | Update skill progress and open Home | Fixed in code |
 | D-07 | Profile editing issue | Edit and save profile details | Fixed |
-| D-08 | Roadmap list states issue | Test loading, empty and error states | Testing pending |
+| D-08 | Roadmap list states issue | Test loading, empty and error states | Fixed |
 
 ## Team Contributions
 
