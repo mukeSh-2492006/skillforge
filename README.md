@@ -121,7 +121,7 @@ APK Location:
 |---|---|---|
 | Sami Mukesh | 248X1A05Q4 | Core Flutter application development, UI implementation, feature integration, defect fixes, testing, and release APK generation. |
 | Shaik Abdul Samad | 248X1A05Q8 | Updated SkillForge branding across Home, Help & Support, and Settings screens. |
-| Talakaya Rakesh | 248X1A05T0 | Assigned contribution; completed work and implementation details to be updated after verification. |
+| Talakayala Rakesh | 248X1A05T0 | Assigned contribution; completed work and implementation details to be updated after verification. |
 
 ## GitHub Repository
 
