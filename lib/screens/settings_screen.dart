@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -14,8 +13,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool remindersEnabled = false;
   bool isLoading = true;
 
-  static const String reminderKey =
-      'skill_sprint_reminders_enabled';
+  static const String reminderKey = 'skill_sprint_reminders_enabled';
 
   @override
   void initState() {
@@ -73,6 +71,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
+  Widget _aboutItem(IconData icon, String title, String subtitle) {
+    return ListTile(
+      leading: Icon(icon, color: AppColors.primary),
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: 13,
+        ),
+      ),
+      subtitle: Text(
+        subtitle,
+        style: const TextStyle(fontSize: 12),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,9 +95,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(
-          color: AppColors.navy,
-        ),
+        iconTheme: const IconThemeData(color: AppColors.navy),
         title: const Text(
           'Settings',
           style: TextStyle(
@@ -158,7 +171,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 const SizedBox(height: 20),
                 const Text(
-                  'About',
+                  'About SkillForge',
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -175,25 +188,68 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       color: AppColors.slateVeryLight,
                     ),
                   ),
-                  child: const ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: AppColors.blue50,
-                      child: Icon(
-                        Icons.school_outlined,
-                        color: AppColors.primary,
+                  child: Column(
+                    children: [
+                      const ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: AppColors.blue50,
+                          child: Icon(
+                            Icons.school_outlined,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                        title: Text(
+                          'SkillForge',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                        subtitle: Text(
+                          'Learn Skills. Track Progress. Grow Together.',
+                          style: TextStyle(fontSize: 11),
+                        ),
                       ),
-                    ),
-                    title: Text(
-                      'SkillSprint',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                      const Divider(height: 1),
+                      _aboutItem(
+                        Icons.info_outline,
+                        'Application',
+                        'SkillForge - Student Learning Application',
                       ),
-                    ),
-                    subtitle: Text(
-                      'Learn Skills. Track Progress. Grow Together.',
-                      style: TextStyle(fontSize: 11),
-                    ),
+                      _aboutItem(
+                        Icons.flutter_dash,
+                        'Framework',
+                        'Flutter',
+                      ),
+                      _aboutItem(
+                        Icons.code,
+                        'Programming Language',
+                        'Dart',
+                      ),
+                      _aboutItem(
+                        Icons.sync_alt,
+                        'State Management',
+                        'Provider',
+                      ),
+                      _aboutItem(
+                        Icons.storage_outlined,
+                        'Local Data Storage',
+                        'SharedPreferences',
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Text(
+                          'SkillForge helps students develop their skills '
+                          'through structured learning, challenges and '
+                          'progress tracking.',
+                          style: TextStyle(
+                            color: AppColors.grey,
+                            fontSize: 12,
+                            height: 1.5,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -201,5 +257,3 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 }
-
-// 9. HELP AND SUPPORT SCREEN
