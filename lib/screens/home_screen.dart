@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import 'package:provider/provider.dart';
 
@@ -71,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text(
-                        'SkillSprint',
+                        'SkillForge',
                         style: TextStyle(
                           color: AppColors.navy,
                           fontWeight: FontWeight.bold,
@@ -546,3 +546,4 @@ class HomeScreen extends StatelessWidget {
 }
 
 // 2. ROADMAP SCREEN
+
