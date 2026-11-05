@@ -93,7 +93,7 @@ class HelpSupportScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        'Find answers to common questions about SkillSprint.',
+                        'Find answers to common questions about SkillForge.',
                         style: TextStyle(
                           fontSize: 11,
                           color: AppColors.slateMedium,
@@ -141,7 +141,7 @@ class HelpSupportScreen extends StatelessWidget {
 
           _buildFaq(
             'Will my learning data remain saved?',
-            'SkillSprint saves your learning data locally on your device using SharedPreferences.',
+            'SkillForge saves your learning data locally on your device using SharedPreferences.',
           ),
 
           const SizedBox(height: 18),
@@ -196,7 +196,7 @@ class HelpSupportScreen extends StatelessWidget {
                     return AlertDialog(
                       title: const Text('Contact Support'),
                       content: const Text(
-                        'For help with SkillSprint, contact your '
+                        'For help with SkillForge, contact your '
                         'project mentor or app development team. '
                         'Share a screenshot and describe the issue.',
                       ),
